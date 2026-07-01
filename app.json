@@ -1,0 +1,1 @@
+{"expo":{"name":"United in Christ","slug":"united-in-christ","scheme":"unitedinchrist","version":"0.1.0","orientation":"portrait","userInterfaceStyle":"dark","assetBundlePatterns":["**/*"],"ios":{"supportsTablet":true},"android":{"adaptiveIcon":{"backgroundColor":"#08090B"}},"web":{"bundler":"metro"},"plugins":["expo-router"],"extra":{"router":{"origin":false}}}}
