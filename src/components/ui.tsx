@@ -80,7 +80,7 @@ export function LoadingState({ title = 'Loading', message = 'Preparing this sect
 }
 
 export function EmptyState({ title, message, action }: { title: string; message: string; action?: ReactNode }) {
-  return <Card variant="quiet"><Badge label="Nothing here yet" variant="muted" /><H2>{title}</H2><Muted>{message}</Muted>{action}</Card>;
+  return <Card variant="quiet"><Badge label="Coming soon" variant="muted" /><H2>{title}</H2><Muted>{message}</Muted>{action}</Card>;
 }
 
 export function ErrorState({ title = 'Something needs attention', message }: { title?: string; message: string }) {
@@ -88,7 +88,7 @@ export function ErrorState({ title = 'Something needs attention', message }: { t
 }
 
 export function DemoNotice() {
-  return <Card variant="quiet"><Badge label="Demo Mode" variant="muted" /><Muted>Safe local preview data is showing. Supabase is not configured, so nothing is published and no private community content is exposed.</Muted></Card>;
+  return <Card variant="quiet"><Badge label="Preview Mode" variant="muted" /><Muted>This first preview uses safe local content. Nothing is published, synced, or exposed until Supabase is configured and admin review is enabled.</Muted></Card>;
 }
 
 const styles = StyleSheet.create({
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background },
   content: { paddingHorizontal: spacing.lg, paddingTop: spacing.md, gap: spacing.md, paddingBottom: 112 },
   hero: { backgroundColor: colors.backgroundSoft, borderColor: colors.borderStrong, borderWidth: 1, borderRadius: radius.xl, padding: spacing.xl, gap: spacing.md, overflow: 'hidden' },
-  card: { borderWidth: 1, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md },
+  card: { width: '100%', borderWidth: 1, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md },
   stack: { gap: spacing.xs, flex: 1 },
   sectionTitle: { gap: spacing.xs, marginTop: spacing.sm },
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   muted: { color: colors.muted, fontSize: typography.small, lineHeight: 21 },
   badge: { alignSelf: 'flex-start', borderWidth: 1, borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: spacing.xs },
   badgeText: { fontSize: typography.micro, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' },
-  button: { minHeight: 50, paddingVertical: spacing.md, paddingHorizontal: spacing.lg, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center', borderWidth: 1 },
+  button: { width: '100%', minHeight: 50, paddingVertical: spacing.md, paddingHorizontal: spacing.lg, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center', borderWidth: 1 },
   pressed: { opacity: 0.82, transform: [{ scale: 0.99 }] },
   buttonText: { fontWeight: '900', letterSpacing: 0.3, fontSize: typography.small },
   input: { color: colors.text, backgroundColor: colors.surfaceSoft, borderColor: colors.border, borderWidth: 1, borderRadius: radius.md, padding: spacing.md, fontSize: typography.body, lineHeight: 22 },
