@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Alert, Switch } from 'react-native';
-import { Badge, Body, Button, Card, DemoNotice, EmptyState, Eyebrow, Field, H1, H2, Hero, Muted, Row, Screen } from '@/components/ui';
+import { Badge, Body, Button, Card, DemoNotice, EmptyState, Eyebrow, Field, H1, H2, Hero, Muted, Row, Screen, SectionTitle } from '@/components/ui';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { colors } from '@/constants/theme';
 import { prayerRequests } from '@/data/mockData';
@@ -28,19 +28,19 @@ export default function Prayer() {
     </Hero>
     {!isSupabaseConfigured && <DemoNotice />}
 
-    <Card>
+    <Card variant="accent">
       <Eyebrow>Prayer Request</Eyebrow>
       <Field placeholder="Title" value={title} onChangeText={setTitle} />
       <Field placeholder="Prayer request" value={body} onChangeText={setBody} multiline />
       <Row><Body>Submit anonymously</Body><Switch value={anonymous} onValueChange={setAnonymous} thumbColor={colors.text} trackColor={{ false: colors.surfaceSoft, true: colors.redDeep }} /></Row>
       <Row><Body>Urgent</Body><Switch value={urgent} onValueChange={setUrgent} thumbColor={colors.text} trackColor={{ false: colors.surfaceSoft, true: colors.redDeep }} /></Row>
-      <Button label="Submit prayer request" onPress={submit} />
-      <Muted>Admin approval is required before anything appears publicly.</Muted>
+      <Button label="Submit for admin review" onPress={submit} />
+      <Muted>Nothing appears publicly without approval. Do not include private contact details.</Muted>
     </Card>
 
-    <H2>Public Prayer Wall</H2>
+    <SectionTitle eyebrow="Approved only" title="Public Prayer Wall" />
     {publicPrayerRequests.length === 0 ? <EmptyState title="No public prayer requests yet" message="Approved public requests will appear here without exposing private contact information." /> : publicPrayerRequests.map(p => <Card key={p.id}>
-      <Eyebrow>{p.urgent ? 'Urgent • ' : ''}{p.category}</Eyebrow>
+      <Badge label={p.urgent ? `Urgent • ${p.category}` : p.category} variant={p.urgent ? 'warning' : 'muted'} />
       <H2>{p.title}</H2>
       <Body>{p.body}</Body>
       <Muted>{p.anonymous ? 'Anonymous' : p.displayName}</Muted>

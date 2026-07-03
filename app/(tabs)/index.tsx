@@ -1,5 +1,5 @@
 import { Link } from 'expo-router';
-import { Badge, Body, BrandMark, Button, Card, DemoNotice, Divider, Eyebrow, H1, H2, Hero, Muted, Row, Screen } from '@/components/ui';
+import { Badge, Body, BrandMark, Button, Card, DemoNotice, Divider, Eyebrow, H1, H2, Hero, Muted, Row, Screen, SectionTitle } from '@/components/ui';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { BibleService } from '@/services/BibleService';
 import { devotionals, upcomingEvents } from '@/data/mockData';
@@ -26,6 +26,7 @@ export default function Home() {
       <Link href="/scripture" asChild><Button label="Open Scripture" /></Link>
     </Card>
 
+    <SectionTitle eyebrow="First preview" title="Start here" />
     <Card>
       <Eyebrow>Prayer</Eyebrow>
       <H2>Submit a private prayer request</H2>

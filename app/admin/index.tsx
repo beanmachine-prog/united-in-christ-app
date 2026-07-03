@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Badge, Body, Button, Card, DemoNotice, ErrorState, Eyebrow, H1, H2, Hero, LoadingState, Muted, Screen } from '@/components/ui';
+import { Badge, Body, Button, Card, DemoNotice, ErrorState, Eyebrow, H1, H2, Hero, LoadingState, Muted, Screen, SectionTitle } from '@/components/ui';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { getCurrentUserRole } from '@/services/AuthService';
 
@@ -16,7 +16,7 @@ export default function AdminDashboard() {
         <Badge label="Protected" />
         <Eyebrow>Admin</Eyebrow>
         <H1>Checking admin access…</H1>
-        <Muted>Verifying role through Supabase.</Muted>
+        <Muted>Verifying role through Supabase before showing moderation queues.</Muted>
       </Hero>
       {!isSupabaseConfigured && <DemoNotice />}
       <LoadingState title="Role Check" message="Confirming whether this user can open admin queues." />
@@ -32,7 +32,7 @@ export default function AdminDashboard() {
         <Muted>Moderation tools are restricted to approved admins.</Muted>
       </Hero>
       {!isSupabaseConfigured && <DemoNotice />}
-      <ErrorState title="Admin access required" message="This area only shows safe preview text unless an authenticated admin is verified. Supabase RLS protects admin-only data and actions on the backend." />
+      <ErrorState title="Safe preview only" message="This route does not expose real moderation actions unless an authenticated admin is verified. Supabase RLS protects admin-only data and actions on the backend." />
     </Screen>;
   }
 
@@ -44,8 +44,10 @@ export default function AdminDashboard() {
       <H1>Moderation before publication.</H1>
       <Muted>Admin-only queues for approval, publishing, reports, and member access.</Muted>
     </Hero>
+
+    <SectionTitle eyebrow="Review queues" title="Needs discernment" />
     {queues.map(q => <Card key={q}>
-      <Eyebrow>Review Queue</Eyebrow>
+      <Badge label="Review Queue" variant="muted" />
       <H2>{q}</H2>
       <Body>Approve, reject, hide, archive, publish, or delete as appropriate.</Body>
       <Button label="Open queue" variant="secondary" />

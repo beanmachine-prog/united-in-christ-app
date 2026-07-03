@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { ActivityIndicator, Pressable, PressableProps, ScrollView, StyleProp, StyleSheet, Text, TextInput, TextInputProps, View, ViewStyle } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, componentVariants, radius, shadows, spacing, typography } from '@/constants/theme';
 
 type CardVariant = keyof typeof componentVariants.card;
@@ -7,7 +8,16 @@ type ButtonVariant = keyof typeof componentVariants.button;
 type StatusVariant = keyof typeof componentVariants.status;
 
 export function Screen({ children }: { children: ReactNode }) {
-  return <ScrollView style={styles.screen} contentContainerStyle={styles.content}>{children}</ScrollView>;
+  return <SafeAreaView edges={["left", "right", "bottom"]} style={styles.safeArea}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={styles.content}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+    >
+      {children}
+    </ScrollView>
+  </SafeAreaView>;
 }
 
 export function Card({ children, variant = 'default' }: { children: ReactNode; variant?: CardVariant }) {
@@ -41,6 +51,10 @@ export function H2({ children }: { children: ReactNode }) { return <Text style={
 export function Body({ children }: { children: ReactNode }) { return <Text style={styles.body}>{children}</Text>; }
 export function Muted({ children }: { children: ReactNode }) { return <Text style={styles.muted}>{children}</Text>; }
 
+export function SectionTitle({ eyebrow, title }: { eyebrow?: string; title: string }) {
+  return <View style={styles.sectionTitle}>{eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}<H2>{title}</H2></View>;
+}
+
 export function Badge({ label, variant = 'default' }: { label: string; variant?: StatusVariant }) {
   const badgeVariant = componentVariants.status[variant];
   return <View style={[styles.badge, { backgroundColor: badgeVariant.backgroundColor, borderColor: badgeVariant.borderColor }]}>
@@ -66,7 +80,7 @@ export function LoadingState({ title = 'Loading', message = 'Preparing this sect
 }
 
 export function EmptyState({ title, message, action }: { title: string; message: string; action?: ReactNode }) {
-  return <Card variant="quiet"><Eyebrow>Empty State</Eyebrow><H2>{title}</H2><Muted>{message}</Muted>{action}</Card>;
+  return <Card variant="quiet"><Badge label="Nothing here yet" variant="muted" /><H2>{title}</H2><Muted>{message}</Muted>{action}</Card>;
 }
 
 export function ErrorState({ title = 'Something needs attention', message }: { title?: string; message: string }) {
@@ -74,30 +88,32 @@ export function ErrorState({ title = 'Something needs attention', message }: { t
 }
 
 export function DemoNotice() {
-  return <Card variant="quiet"><Badge label="Demo Mode" variant="muted" /><Muted>Supabase is not configured yet, so this preview uses safe local mock data and does not publish or expose real community content.</Muted></Card>;
+  return <Card variant="quiet"><Badge label="Demo Mode" variant="muted" /><Muted>Safe local preview data is showing. Supabase is not configured, so nothing is published and no private community content is exposed.</Muted></Card>;
 }
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: colors.background },
   screen: { flex: 1, backgroundColor: colors.background },
-  content: { padding: spacing.lg, gap: spacing.md, paddingBottom: 92 },
+  content: { paddingHorizontal: spacing.lg, paddingTop: spacing.md, gap: spacing.md, paddingBottom: 112 },
   hero: { backgroundColor: colors.backgroundSoft, borderColor: colors.borderStrong, borderWidth: 1, borderRadius: radius.xl, padding: spacing.xl, gap: spacing.md, overflow: 'hidden' },
-  card: { borderWidth: 1, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.sm },
+  card: { borderWidth: 1, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md },
   stack: { gap: spacing.xs, flex: 1 },
-  brandWrap: { width: 54, height: 54, borderRadius: radius.md, backgroundColor: colors.redSoft, borderWidth: 1, borderColor: colors.borderStrong, alignItems: 'center', justifyContent: 'center' },
-  crossVertical: { position: 'absolute', width: 7, height: 34, borderRadius: radius.sm, backgroundColor: colors.cream },
-  crossHorizontal: { position: 'absolute', top: 18, width: 25, height: 7, borderRadius: radius.sm, backgroundColor: colors.cream },
+  sectionTitle: { gap: spacing.xs, marginTop: spacing.sm },
+  brandWrap: { width: 56, height: 56, borderRadius: radius.lg, backgroundColor: colors.redSoft, borderWidth: 1, borderColor: colors.borderStrong, alignItems: 'center', justifyContent: 'center' },
+  crossVertical: { position: 'absolute', width: 7, height: 36, borderRadius: radius.sm, backgroundColor: colors.cream },
+  crossHorizontal: { position: 'absolute', top: 18, width: 26, height: 7, borderRadius: radius.sm, backgroundColor: colors.cream },
   divider: { height: 1, backgroundColor: colors.border, marginVertical: spacing.xs },
   eyebrow: { color: colors.gold, textTransform: 'uppercase', letterSpacing: 1.8, fontSize: typography.micro, fontWeight: '800' },
-  h1: { color: colors.text, fontSize: typography.h1, lineHeight: 36, fontWeight: '900', letterSpacing: -0.7 },
-  h2: { color: colors.text, fontSize: typography.h2, lineHeight: 28, fontWeight: '800', letterSpacing: -0.3 },
-  body: { color: colors.textSoft, fontSize: typography.body, lineHeight: 25 },
-  muted: { color: colors.muted, fontSize: typography.small, lineHeight: 20 },
+  h1: { color: colors.text, fontSize: typography.h1, lineHeight: 37, fontWeight: '900', letterSpacing: -0.7 },
+  h2: { color: colors.text, fontSize: typography.h2, lineHeight: 29, fontWeight: '800', letterSpacing: -0.3 },
+  body: { color: colors.textSoft, fontSize: typography.body, lineHeight: 26 },
+  muted: { color: colors.muted, fontSize: typography.small, lineHeight: 21 },
   badge: { alignSelf: 'flex-start', borderWidth: 1, borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: spacing.xs },
   badgeText: { fontSize: typography.micro, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' },
-  button: { padding: spacing.md, borderRadius: radius.md, alignItems: 'center', borderWidth: 1 },
-  pressed: { opacity: 0.82 },
-  buttonText: { fontWeight: '900', letterSpacing: 0.2 },
-  input: { color: colors.text, backgroundColor: colors.surfaceSoft, borderColor: colors.border, borderWidth: 1, borderRadius: radius.md, padding: spacing.md, fontSize: typography.body },
-  multiline: { minHeight: 120, textAlignVertical: 'top' },
+  button: { minHeight: 50, paddingVertical: spacing.md, paddingHorizontal: spacing.lg, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center', borderWidth: 1 },
+  pressed: { opacity: 0.82, transform: [{ scale: 0.99 }] },
+  buttonText: { fontWeight: '900', letterSpacing: 0.3, fontSize: typography.small },
+  input: { color: colors.text, backgroundColor: colors.surfaceSoft, borderColor: colors.border, borderWidth: 1, borderRadius: radius.md, padding: spacing.md, fontSize: typography.body, lineHeight: 22 },
+  multiline: { minHeight: 132, textAlignVertical: 'top' },
 });
