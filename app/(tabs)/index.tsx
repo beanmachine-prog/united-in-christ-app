@@ -1,12 +1,21 @@
 import { Link } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { Badge, Body, BrandMark, Button, Card, Divider, Eyebrow, H1, H2, Hero, Muted, Row, Screen } from '@/components/ui';
 import { BibleService } from '@/services/BibleService';
 import { devotionals, upcomingEvents } from '@/data/mockData';
+import { isSupabaseConfigured } from '@/lib/supabase';
+import { listDevotionals, listEvents } from '@/services/SupabaseService';
 
 export default function Home() {
   const verse = BibleService.getDailyVerse();
-  const event = upcomingEvents[0];
-  const devotional = devotionals[0];
+  const [event, setEvent] = useState(upcomingEvents[0]);
+  const [devotional, setDevotional] = useState(devotionals[0]);
+
+  useEffect(() => {
+    if (!isSupabaseConfigured) return;
+    listEvents().then(items => { if (items[0]) setEvent(items[0]); }).catch(() => undefined);
+    listDevotionals().then(items => { if (items[0]) setDevotional(items[0]); }).catch(() => undefined);
+  }, []);
 
   return <Screen>
     <Hero>

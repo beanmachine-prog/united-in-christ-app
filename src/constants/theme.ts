@@ -75,6 +75,7 @@ export const componentVariants = {
     primary: { backgroundColor: colors.red, borderColor: colors.red, textColor: colors.text },
     secondary: { backgroundColor: 'transparent', borderColor: colors.borderStrong, textColor: colors.textSoft },
     ghost: { backgroundColor: colors.surfaceSoft, borderColor: colors.border, textColor: colors.textSoft },
+    danger: { backgroundColor: colors.redSoft, borderColor: colors.borderStrong, textColor: colors.danger },
   },
   status: {
     default: { backgroundColor: colors.redSoft, borderColor: colors.borderStrong, textColor: colors.text },
